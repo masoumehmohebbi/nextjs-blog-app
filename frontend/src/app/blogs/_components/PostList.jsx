@@ -1,3 +1,5 @@
+import CoverImage from "./CoverImage";
+
 const PostList = async () => {
   await new Promise((res) => setTimeout(res, 3000));
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/post/list`);
@@ -11,7 +13,11 @@ const PostList = async () => {
           key={post._id}
           className="col-span-12 sm:col-span-6 lg:col-span-4 border border-secondary-300 p-2 rounded-lg"
         >
-          <CoverImage />
+          <CoverImage
+            title={post.title}
+            coverImageUrl={post.coverImageUrl}
+            slug={post.slug}
+          />
         </div>
       ))}
     </div>
