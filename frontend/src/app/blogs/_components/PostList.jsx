@@ -1,4 +1,7 @@
+import Link from "next/link";
 import CoverImage from "./CoverImage";
+import Author from "./Author";
+import { ClockIcon } from "@heroicons/react/24/outline";
 
 const PostList = async () => {
   await new Promise((res) => setTimeout(res, 3000));
