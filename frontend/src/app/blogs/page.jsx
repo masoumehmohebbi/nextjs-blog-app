@@ -1,15 +1,15 @@
-const BlogPage = async () => {
-  await new Promise((res) => setTimeout(res, 3000));
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/post/list`);
-  const {
-    data: { posts },
-  } = await res.json();
+import { Suspense } from "react";
+import PostList from "./_components/PostList";
+import Spinner from "@/ui/Spinner";
+
+const BlogPage = () => {
   return (
-    <div>
-      {posts.map((post) => (
-        <div>{post.title}</div>
-      ))}
-    </div>
+    <>
+      <h1>hey</h1>
+      <Suspense fallback={<Spinner />}>
+        <PostList />
+      </Suspense>
+    </>
   );
 };
 
