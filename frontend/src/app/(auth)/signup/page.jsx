@@ -6,7 +6,9 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { signupApi } from "@/services/authService";
 import toast from "react-hot-toast";
-import { useRouter } from "next/router";
+import { useRouter } from "next/compat/router";
+import Button from "@/ui/Button";
+import Link from "next/link";
 
 const SignUp = () => {
   const schema = yup
@@ -34,7 +36,7 @@ const SignUp = () => {
 
   const onSubmit = async (values) => {
     try {
-      const { data, message } = await signupApi(values);
+      const { message } = await signupApi(values);
       toast.success(message);
       router.push("/profile");
     } catch (error) {
@@ -44,8 +46,10 @@ const SignUp = () => {
 
   return (
     <div>
-      <h1>ثبت نام</h1>
-      <form handleSubmit={onSubmit}>
+      <h1 className="text-xl font-bold text-secondary-500 text-center mb-6">
+        ورود
+      </h1>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
         <RHFTextField
           name="name"
           label="نام و نام خانوادگی"
@@ -57,6 +61,7 @@ const SignUp = () => {
           label="ایمیل"
           register={register}
           errors={errors}
+          dir="ltr"
         />
         <RHFTextField
           name="password"
@@ -66,7 +71,17 @@ const SignUp = () => {
           type="password"
           errors={errors}
         />
+
+        <Button
+          type="submit"
+          className="py-3 px-4 btn btn--primary rounded-xl w-full"
+        >
+          تایید
+        </Button>
       </form>
+      <Link href="/signin" className="text-secondary-500 mt-6 text-center">
+        ورود
+      </Link>
     </div>
   );
 };
