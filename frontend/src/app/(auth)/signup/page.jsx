@@ -4,6 +4,9 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { signupApi } from "@/services/authService";
+import toast from "react-hot-toast";
+import { useRouter } from "next/router";
 
 const SignUp = () => {
   const schema = yup
@@ -27,10 +30,22 @@ const SignUp = () => {
     mode: "onTouched",
   });
 
+  const router = useRouter();
+
+  const onSubmit = async (values) => {
+    try {
+      const { data, message } = await signupApi(values);
+      toast.success(message);
+      router.push("/profile");
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+    }
+  };
+
   return (
     <div>
       <h1>ثبت نام</h1>
-      <form onSubmit={handleSubmit}>
+      <form handleSubmit={onSubmit}>
         <RHFTextField
           name="name"
           label="نام و نام خانوادگی"
