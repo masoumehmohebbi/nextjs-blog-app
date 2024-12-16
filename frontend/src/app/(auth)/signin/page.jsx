@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/compat/router";
 import Button from "@/ui/Button";
 import Link from "next/link";
+import { useAuth } from "@/context/AuthContext";
 
 const SignIn = () => {
   const schema = yup
@@ -27,13 +28,10 @@ const SignIn = () => {
     mode: "onTouched",
   });
 
+  const { signin } = useAuth();
+
   const onSubmit = async (values) => {
-    try {
-      const { message } = await signinApi(values);
-      toast.success(message);
-    } catch (error) {
-      toast.error(error?.response?.data?.message);
-    }
+    await signin(values);
   };
 
   return (

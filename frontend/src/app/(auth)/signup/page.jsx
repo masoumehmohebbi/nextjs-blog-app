@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/compat/router";
 import Button from "@/ui/Button";
 import Link from "next/link";
+import { useAuth } from "@/context/AuthContext";
 
 const SignUp = () => {
   const schema = yup
@@ -34,14 +35,10 @@ const SignUp = () => {
 
   const router = useRouter();
 
+  const { signup } = useAuth();
+
   const onSubmit = async (values) => {
-    try {
-      const { message } = await signupApi(values);
-      toast.success(message);
-      router.push("/profile");
-    } catch (error) {
-      toast.error(error?.response?.data?.message);
-    }
+    signup(values);
   };
 
   return (
