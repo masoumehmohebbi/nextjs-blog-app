@@ -1,11 +1,12 @@
 "use client";
 
-import { signinApi, signupApi } from "@/services/authService";
+import { getUserApi, signinApi, signupApi } from "@/services/authService";
 import { useRouter } from "next/navigation";
 
-const { useContext, useReducer } = require("react");
+import { useContext, useReducer, useEffect, createContext } from "react";
+import toast from "react-hot-toast";
 
-const AuthContext = useContext();
+const AuthContext = createContext();
 
 const initialState = {
   user: null,
@@ -21,6 +22,8 @@ const authReducer = (state, action) => {
     case "rejected":
       return { ...state, isLoading: false, error: action.payload };
     case "signin":
+      return { isAuthenticated: true, user: action.payload };
+    case "user/loaded":
       return { isAuthenticated: true, user: action.payload };
   }
 };
@@ -45,6 +48,7 @@ export default function AuthProvider({ children }) {
       dispatch({ type: "rejected", payload: errorMsg });
     }
   }
+
   async function signup(values) {
     dispatch({ type: "loading" });
     try {
@@ -59,12 +63,30 @@ export default function AuthProvider({ children }) {
     }
   }
 
+  async function getUser() {
+    dispatch({ type: "loading" });
+    try {
+      const { user } = await getUserApi();
+      dispatch({ type: "user/loaded", payload: user });
+      router.push("/profile");
+    } catch (error) {
+      const errorMsg = error?.response?.data?.message;
+      dispatch({ type: "rejected", payload: errorMsg });
+      toast.error(errorMsg);
+    }
+  }
+  useEffect(() => {
+    const fetchData = async () => {
+      await getUser();
+    };
+    fetchData();
+  }, []);
   return (
-    <AuthContext.provider
+    <AuthContext.Provider
       value={{ user, isAuthenticated, isLoading, signin, signup }}
     >
       {children}
-    </AuthContext.provider>
+    </AuthContext.Provider>
   );
 }
 

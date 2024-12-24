@@ -83,7 +83,7 @@
     @apply px-3 py-3 rounded-xl transition-all duration-300;
   }
   .btn--primary {
-    @apply bg-primary-900 hover:bg-primary-700 text-primary-100;
+    @apply bg-primary-900 hover:bg-primary-700 text-secondary-100;
   }
   .btn--secondary {
     @apply bg-secondary-600 text-secondary-100;
@@ -121,11 +121,11 @@
   }
 
   .spinner-mini {
-    margin: 0;
+    margin: 0 auto;
     width: 20px;
     aspect-ratio: 1;
     border-radius: 50%;
-    border: 2px solid rgb(var(--color-primary-200));
+    border: 2px solid rgb(var(--color-primary-900));
     border-right-color: transparent;
     animation: rotate 1s infinite linear;
   }

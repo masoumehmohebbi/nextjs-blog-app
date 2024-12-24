@@ -10,6 +10,7 @@ import { useRouter } from "next/compat/router";
 import Button from "@/ui/Button";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
+import { SpinnerMini } from "@/ui/Spinner";
 
 const SignUp = () => {
   const schema = yup
@@ -69,12 +70,18 @@ const SignUp = () => {
           errors={errors}
         />
 
-        <Button
-          type="submit"
-          className="py-3 px-4 btn btn--primary rounded-xl w-full"
-        >
-          تایید
-        </Button>
+        <div>
+          {isLoading ? (
+            <SpinnerMini />
+          ) : (
+            <Button
+              type="submit"
+              className="py-3 px-4 btn btn--primary rounded-xl w-full"
+            >
+              تایید
+            </Button>
+          )}
+        </div>
       </form>
       <Link href="/signin" className="text-secondary-500 mt-6 text-center">
         ورود
